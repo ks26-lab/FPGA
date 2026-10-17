@@ -1147,8 +1147,12 @@ function switchProject(projId) {
 
   document.getElementById("active-target-id").textContent = currentProject.id;
   document.getElementById("active-target-desc").textContent = currentProject.desc;
-  document.getElementById("cli-prompt-tag").textContent = `FPGA://${currentProject.id}`;
-  document.getElementById("project-image").src = currentProject.image;
+  const imgEl = document.getElementById("project-image");
+  imgEl.onerror = () => {
+    imgEl.onerror = null;
+    imgEl.src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450"><rect width="800" height="450" fill="%23040810"/><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="%23162235" stroke-width="1"/></pattern></defs><rect width="800" height="450" fill="url(%23grid)"/><circle cx="400" cy="225" r="140" fill="none" stroke="%2300e5ff" stroke-width="1.5" stroke-dasharray="6,6" opacity="0.6"/><circle cx="400" cy="225" r="90" fill="none" stroke="%2300ff88" stroke-width="1.5" opacity="0.4"/><line x1="160" y1="225" x2="640" y2="225" stroke="%231f334d" stroke-width="1"/><line x1="400" y1="65" x2="400" y2="385" stroke="%231f334d" stroke-width="1"/><text x="400" y="215" font-family="monospace" font-size="20" fill="%2300e5ff" font-weight="bold" text-anchor="middle" letter-spacing="2">${currentProject.id} HARDWARE BENCH</text><text x="400" y="245" font-family="monospace" font-size="12" fill="%238b949e" text-anchor="middle">${currentProject.desc}</text><text x="400" y="275" font-family="monospace" font-size="11" fill="%2300ff88" text-anchor="middle">[REAL-TIME AXI REGISTER MAPPING ACTIVE]</text></svg>`;
+  };
+  imgEl.src = currentProject.image;
 
   renderDock();
   renderInputs();

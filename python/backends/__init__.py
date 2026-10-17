@@ -31,10 +31,11 @@ def detect_and_create_backend(requested_mode: str = "auto") -> BaseExecutionBack
         return LaptopFPGAEmulator()
     
     elif mode == "auto":
-        fpga = FPGAHardwareBackend()
-        if fpga.is_available():
+        try:
+            fpga = FPGAHardwareBackend()
             return fpga
-        return LaptopFPGAEmulator()
+        except Exception:
+            return LaptopFPGAEmulator()
     
     else:
         raise ValueError(f"Unknown execution mode '{requested_mode}'. Supported: 'auto', 'fpga', 'emulator'.")
