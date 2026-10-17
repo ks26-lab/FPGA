@@ -1,0 +1,11 @@
+Experiment 04: Dual-Axis Solar Tracking Gimbal Demonstration
+Board: AMD EDGE Zynq Z7010 SoC (XC7Z010-1CLG400C)
+
+Hardware Video Demonstration & Waveform Presentation:
+https://youtu.be/example_exp04_solar_gimbal_zynq7010
+
+Demonstration Highlights:
+1. Continuous 3D vector unit transformation of Sun ephemeris coordinates at 100 MHz in PL logic.
+2. Modulo-360 azimuth crossing demonstration without mechanical gimbal cable wrap.
+3. Incident angle arccos hardware pipeline convergence and photovoltaic generation telemetry.
+4. Autonomous deadband settling and locked indicator LED illumination.

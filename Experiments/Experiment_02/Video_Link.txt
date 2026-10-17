@@ -1,0 +1,18 @@
+==============================================================================
+EXPERIMENT 02: SMART CITY TRAFFIC GRID — DEMONSTRATION VIDEO
+Target Board: AMD EDGE Zynq Z7010 SoC Development Board (XC7Z010-1CLG400C)
+==============================================================================
+
+Demonstration Video Links:
+- Primary Hardware Run Demo: [To be documented upon physical lab session upload]
+- Vivado XSim Functional Simulation: [To be documented upon lab verification]
+
+Instructions for evaluators:
+1. Connect EDGE Zynq Z7010 board via USB-UART and Micro-USB JTAG.
+2. Program bitstream: `traffic_top.bit` (or unified `multi_scene_top.bit`).
+3. Launch Python CLI: `python3 main.py` or `./run_cli.sh`.
+4. Enter: `scene traffic`.
+5. Observe physical board diagnostic LEDs (M14..J16) reflecting signal states:
+   - LED[3:0]: 0=NS_G, 1=NS_Y, 2=ALL_RED, 3=EW_G, 4=EW_Y, 5=PED, 6=EMG
+   - Header L14..V13: External traffic light signals (Green, Yellow, Red for NS and EW).
+6. Enter `emg north` to trigger emergency vehicle preemption and arterial wave.

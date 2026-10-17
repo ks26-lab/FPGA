@@ -1,0 +1,16 @@
+{
+  "signals": {
+    "input": {
+      "width": 8,
+      "signed": false
+    },
+    "output": {
+      "width": 8,
+      "signed": false
+    }
+  },
+  "representation": {
+    "format": "binary",
+    "endianness": "little"
+  }
+}

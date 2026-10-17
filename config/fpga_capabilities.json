@@ -1,0 +1,120 @@
+{
+  "target_platform": "EDGE_ZYNQ_Z7010",
+  "fpga_part": "xc7z010-1clg400c",
+  "clock_frequency_hz": 50000000,
+  "system_bus": "AXI4-Lite",
+  "bus_width_bits": 32,
+  "execution_model": "SYNCHRONOUS_RTL",
+  "fixed_point_only": true,
+  "floating_point_hardware_supported": false,
+  "address_space": {
+    "aperture_base": "0x43C00000",
+    "aperture_high": "0x43C4FFFF",
+    "scene_window_size": 65536
+  },
+  "scenes": {
+    "underwater": {
+      "base_address": "0x43C00000",
+      "fixed_point_scale": 10.0,
+      "depth_data_width": 16,
+      "current_data_width": 8,
+      "displacement_data_width": 8,
+      "update_rate_hz": 10.0,
+      "fsm_states": [
+        "STATE_IDLE",
+        "STATE_MOVING_TO_TARGET",
+        "STATE_DISTURBED",
+        "STATE_COLLISION_DETECTED",
+        "STATE_DISPLACEMENT",
+        "STATE_RECOVERY",
+        "STATE_TARGET_REACHED"
+      ],
+      "supported_operations": [
+        "proportional_depth_seeking",
+        "arithmetic_shift_current_drift",
+        "discrete_collision_impulse",
+        "asymptotic_recovery_ramp"
+      ]
+    },
+    "maze": {
+      "base_address": "0x43C10000",
+      "grid_size": [8, 8],
+      "storage": "DISTRIBUTED_ROM_64x4",
+      "timer_duration_s": 5,
+      "fsm_states": [
+        "STATE_IDLE",
+        "STATE_MAZE_DISPLAY",
+        "STATE_MEMORY_PHASE",
+        "STATE_GAMEPLAY",
+        "STATE_WIN",
+        "STATE_GAME_OVER"
+      ],
+      "supported_operations": [
+        "rom_cell_read",
+        "boundary_clamp",
+        "wall_collision_check",
+        "coordinate_increment_decrement",
+        "hardware_countdown_timer"
+      ]
+    },
+    "mars_habitat": {
+      "base_address": "0x43C20000",
+      "lfsr_polynomial": "x^8 + x^6 + x^5 + x^4 + 1",
+      "fixed_point_scale": 10.0,
+      "default_threshold_A": 70.0,
+      "default_threshold_B": 65.0,
+      "fsm_states": [
+        "STATE_IDLE",
+        "STATE_ATTACK_RECEIVED",
+        "STATE_METEORITE_ACTIVE",
+        "STATE_TARGET_IDENT",
+        "STATE_IMPACT_CALC",
+        "STATE_THRESHOLD_CHECK",
+        "STATE_PROTECTION_ACTION",
+        "STATE_UPDATE_STATUS",
+        "STATE_NEXT_METEORITE",
+        "STATE_ATTACK_COMPLETE"
+      ],
+      "supported_operations": [
+        "lfsr_pseudo_random_generation",
+        "threshold_comparator",
+        "section_isolation_latch",
+        "event_counters"
+      ]
+    },
+    "solar_gimbal": {
+      "base_address": "0x43C30000",
+      "fixed_point_scale": 10.0,
+      "tracking_tolerance_deg": 0.5,
+      "fsm_states": [
+        "STATE_IDLE",
+        "STATE_CALCULATING",
+        "STATE_TRACKING_LOCKED",
+        "STATE_SLEWING"
+      ],
+      "supported_operations": [
+        "circular_modulo_360_subtraction",
+        "elevation_error_subtraction",
+        "proportional_actuator_output",
+        "tolerance_window_comparator"
+      ]
+    },
+    "traffic": {
+      "base_address": "0x43C40000",
+      "intersections_supported": 4,
+      "fsm_states": [
+        "PHASE_NS_GREEN",
+        "PHASE_NS_YELLOW",
+        "PHASE_ALL_RED",
+        "PHASE_EW_GREEN",
+        "PHASE_EW_YELLOW"
+      ],
+      "supported_operations": [
+        "queue_depth_comparison",
+        "adaptive_green_time_allocation",
+        "manual_override_latch",
+        "vehicle_clearance_counters"
+      ]
+    }
+  }
+}

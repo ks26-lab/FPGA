@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FPGA Project Control Panel — Experimental Testbed</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="engineering-theme">
+
+  <!-- ===================================================================== -->
+  <!-- 1. CINEMATIC INTRODUCTION OVERLAY (5-10 Seconds)                      -->
+  <!-- ===================================================================== -->
+  <div id="cinematic-intro" class="cinematic-overlay">
+    <div class="crt-scanline"></div>
+    <div class="intro-container">
+      <div class="intro-header">
+        <div class="station-tag">SYSTEM HARDWARE BENCH // BITSTREAM REVISION 1.0</div>
+        <div class="clock-tag">PLL LOCK: 50.000 MHz</div>
+      </div>
+
+      <div class="intro-terminal-box">
+        <div class="intro-terminal-titlebar">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="terminal-title">FPGA_BOOT_SEQUENCE.LOG</span>
+        </div>
+        <pre id="intro-terminal-log" class="intro-log-content"></pre>
+      </div>
+
+      <div class="intro-progress-section">
+        <div class="progress-labels">
+          <span id="intro-stage-label">SYNCHRONIZING INTERNAL BUS DOMAINS...</span>
+          <span id="intro-percent-label">0%</span>
+        </div>
+        <div class="progress-track">
+          <div id="intro-progress-bar" class="progress-fill"></div>
+        </div>
+      </div>
+
+      <button id="skip-intro-btn" class="skip-btn" title="Press ESC or Click to Skip">
+        [ SKIP INTRO <span class="kbd">ESC</span> ]
+      </button>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 2. MAIN FPGA EXPERIMENTAL CONTROL STATION                             -->
+  <!-- ===================================================================== -->
+  <div id="control-panel" class="station-layout hidden">
+    
+    <!-- Top Engineering Header -->
+    <header class="station-header">
+      <div class="header-left">
+        <div class="system-ident">
+          <span class="pulse-indicator"></span>
+          <span class="system-title">FPGA EXPERIMENTAL CONTROL STATION</span>
+        </div>
+        <div class="protocol-badge">PROTOCOL: <code>PROTOCOL.JSON</code> (8-BIT INTERFACE)</div>
+      </div>
+      <div class="header-right">
+        <div class="clock-readout">CLK: <span class="val" id="clk-readout-val">50.00 MHz</span></div>
+        <div class="state-readout">LINK: <span class="val" id="bus-readout-val">DISCONNECTED</span></div>
+        <div class="mode-readout">MODE: <span class="val" id="mode-readout-val">SOFTWARE-ONLY (WEB DEMO)</span></div>
+      </div>
+    </header>
+
+    <!-- Project Dock Navigation (3 non-selected projects remain as compact navigation cards) -->
+    <nav class="project-navigation-dock" aria-label="FPGA Project Selection">
+      <div class="dock-label">HARDWARE TARGETS:</div>
+      <div class="dock-items" id="project-dock">
+        <!-- Injected via JavaScript for the 4 projects -->
+      </div>
+    </nav>
+
+    <!-- Main Workspace -->
+    <main class="active-project-workspace">
+      
+      <!-- Top Project Breadcrumb & Hardware Ident -->
+      <div class="workspace-header">
+        <div class="target-title-wrap">
+          <span class="target-prefix">FPGA://</span>
+          <span id="active-target-id" class="target-name">TRAFFIC</span>
+          <span id="active-target-desc" class="target-desc">4-WAY INTERSECTION CONTROLLER (FSM)</span>
+        </div>
+        <div class="signal-flow-tracker" id="flow-tracker">
+          <span class="flow-step" id="flow-cmd">USER COMMAND</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step" id="flow-in">FPGA INPUT</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step" id="flow-logic">FPGA LOGIC</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step" id="flow-out">FPGA OUTPUT</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step" id="flow-vis">VISUAL HARDWARE</span>
+        </div>
+      </div>
+
+      <!-- Core Grid: Visual + CLI (Left) and Inputs + Outputs (Right) -->
+      <div class="workspace-grid">
+        
+        <!-- Left Column: Visual Hardware Testbed & CLI -->
+        <div class="primary-visual-column">
+          
+          <!-- 1. Project Visual -->
+          <section class="hardware-visual-card">
+            <div class="panel-section-header">
+              <span class="sec-num">01</span>
+              <span class="sec-title">HARDWARE TESTBED VISUAL</span>
+              <span class="sec-status" id="visual-live-tag">○ SOFTWARE TESTBED FEED</span>
+            </div>
+            
+            <div class="visual-viewport" id="visual-viewport">
+              <img id="project-image" src="" alt="FPGA Project Visual Testbed" class="testbed-image">
+              
+              <!-- Clean Non-Intrusive Hardware Output Overlay -->
+              <div id="visual-state-overlay" class="visual-hardware-overlay">
+                <!-- Dynamically populated with direct hardware state indicator -->
+              </div>
+            </div>
+          </section>
+
+          <!-- CLI Interaction Module -->
+          <section class="cli-terminal-card">
+            <div class="panel-section-header">
+              <span class="sec-num">02</span>
+              <span class="sec-title">HUMAN-TO-FPGA CLI INTERFACE</span>
+              <span class="sec-tag" id="cli-prompt-tag">FPGA://TRAFFIC</span>
+            </div>
+
+            <div class="cli-display" id="cli-history">
+              <div class="cli-line sys-msg">[SYSTEM] CLI bound to synthesized FPGA target interface.</div>
+              <div class="cli-line sys-msg">[HELP] Use 'set &lt;actual_input&gt; &lt;value&gt;', 'run', 'status', or 'help'.</div>
+            </div>
+
+            <form id="cli-form" class="cli-input-row" autocomplete="off">
+              <span class="cli-prompt-symbol">&gt;</span>
+              <input type="text" id="cli-input" class="cli-input-field" placeholder="set <actual_input> <value> | run" spellcheck="false">
+              <button type="submit" class="cli-send-btn">EXECUTE</button>
+            </form>
+          </section>
+
+        </div>
+
+        <!-- Right Column: FPGA Inputs & FPGA Outputs -->
+        <div class="io-control-column">
+          
+          <!-- 2. FPGA Inputs -->
+          <section class="io-card inputs-card">
+            <div class="panel-section-header">
+              <span class="sec-num">03</span>
+              <span class="sec-title">FPGA INPUTS</span>
+              <span class="sec-count" id="input-count-tag">5 PINS</span>
+            </div>
+            <div class="io-content" id="fpga-inputs-container">
+              <!-- Dynamically populated strictly with the actual FPGA inputs -->
+            </div>
+          </section>
+
+          <!-- 3. FPGA Outputs -->
+          <section class="io-card outputs-card">
+            <div class="panel-section-header">
+              <span class="sec-num">04</span>
+              <span class="sec-title">FPGA OUTPUTS</span>
+              <span class="sec-count" id="output-count-tag">4 PORTS</span>
+            </div>
+            <div class="io-content" id="fpga-outputs-container">
+              <!-- Dynamically populated strictly with the actual FPGA outputs -->
+            </div>
+          </section>
+
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

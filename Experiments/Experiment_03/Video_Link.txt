@@ -1,0 +1,21 @@
+==============================================================================
+EXPERIMENT 03: 3D MAZE RUNNER — DEMONSTRATION VIDEO
+Target Board: AMD EDGE Zynq Z7010 SoC Development Board (XC7Z010-1CLG400C)
+==============================================================================
+
+Demonstration Video Links:
+- Primary Hardware Run Demo: [To be documented upon physical lab session upload]
+- Vivado XSim Functional Simulation: [To be documented upon lab verification]
+
+Instructions for evaluators:
+1. Connect EDGE Zynq Z7010 board via USB-UART and Micro-USB JTAG.
+2. Program bitstream: `maze_top.bit` (or unified `multi_scene_top.bit`).
+3. Launch Python CLI: `python3 maze_runner_cli.py` or `./run_cli.sh`.
+4. Enter: `scene maze`.
+5. Enter: `start` to begin the 5-second maze memorization phase.
+6. Observe physical board diagnostic LEDs (M14..J16) reflecting states:
+   - LED[3:0]: 0=IDLE, 1=DISPLAY, 3=GAMEPLAY, 4=WIN, 5=GAME_OVER
+   - LED 4: Collision against wall
+   - LED 5: Goal reached indicator
+   - LED 6: Maze visibility strobe
+7. Use arrow keys or `up`, `down`, `left`, `right` to navigate through the maze.

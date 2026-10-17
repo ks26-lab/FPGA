@@ -1,0 +1,20 @@
+==============================================================================
+EXPERIMENT 01: UNDERWATER DYNAMIC PROBE SIMULATION — DEMONSTRATION VIDEO
+Target Board: AMD EDGE Zynq Z7010 SoC Development Board (XC7Z010-1CLG400C)
+==============================================================================
+
+Demonstration Video Links:
+- Primary Hardware Run Demo: [To be documented upon physical lab session upload]
+- Vivado XSim Functional Simulation: [To be documented upon lab verification]
+
+Instructions for evaluators:
+1. Connect EDGE Zynq Z7010 board via USB-UART and Micro-USB JTAG.
+2. Open serial terminal (PuTTY/minicom) at 115200 baud, 8-N-1.
+3. Program bitstream: `underwater_probe_top.bit`.
+4. Launch CLI: `python3 underwater_probe_cli.py --hw`.
+5. Observe physical board diagnostic LEDs (M14..J16) reflecting probe states:
+   - LED[3:0]: FSM State (0=IDLE, 1=MOVE, 3=COLLISION, 5=RECOVERY, 6=REACHED)
+   - LED 4: Collision strobe pulse
+   - LED 5: Recovery active
+   - LED 6: Target reached indicator
+   - Pin J15: Ballast pump PWM modulation
